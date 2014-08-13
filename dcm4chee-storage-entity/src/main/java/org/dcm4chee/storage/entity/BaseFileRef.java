@@ -64,7 +64,7 @@ import javax.persistence.Table;
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="objtype", discriminatorType=DiscriminatorType.STRING)
 @DiscriminatorValue("BaseFileRef")
-@Table(name = "file_ref")
+@Table(name = "dcm4che_file_ref")
 public class BaseFileRef implements Serializable {
 
     private static final long serialVersionUID = 1070787830873350147L;

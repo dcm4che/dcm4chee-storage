@@ -9,7 +9,6 @@
   <access>FIELD</access>
 
   <entity class="BaseFileRef">
-    <table name="file_ref" />
     <sequence-generator name="seq" sequence-name="files_pk_seq4" allocation-size="1" />
     <attributes>
       <id name="pk">
