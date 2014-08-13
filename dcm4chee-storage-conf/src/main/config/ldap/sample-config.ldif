@@ -1,0 +1,64 @@
+dn: cn=Devices,cn=DICOM Configuration,dc=example,dc=com
+cn: Devices
+objectClass: dicomDevicesRoot
+objectClass: top
+
+dn: dicomDeviceName=dcm4chee-storage,cn=Devices,cn=DICOM Configuration,dc=example,dc
+ =com
+objectClass: dicomDevice
+objectClass: dcmDevice
+objectClass: top
+dicomDeviceName: dcm4chee-storage
+dicomInstalled: TRUE
+dicomInstitutionCode: (111.1111, 99DCM4CHEE, "Site A")
+dicomInstitutionName: Site A
+dicomIssuerOfAccessionNumber: XDS_A&1.2.40.0.13.1.1.999.111.1111&ISO
+dicomIssuerOfPatientID: XDS_A&1.2.40.0.13.1.1.999.111.1111&ISO
+
+
+dn: cn=STORAGE,dicomDeviceName=dcm4chee-storage,cn=Devices,cn=DICOM Configurat
+ ion,dc=example,dc=com
+storageApplicationName: STORE
+storageDescription: Test storage
+objectClass: dcm4cheeStorage
+objectClass: top
+cn: STORAGE
+
+dn: cn=test_store,cn=STORAGE,dicomDeviceName=dcm4chee-storage,cn=Devices,cn=DI
+ COM Configuration,dc=example,dc=com
+cn: test_store
+objectClass: dcmCollection
+objectClass: top
+
+dn: storageFileSystemGroupID=ONLINE_STORAGE,cn=test_store,cn=STORAGE,dicomDeviceName=dcm4chee-storage,c
+ n=Devices,cn=DICOM Configuration,dc=example,dc=com
+storageFileSystemGroupID: ONLINE_STORAGE
+storageMinFreeDiskSpace: 10%
+storageDefaultStorageDirectory: /filesystem/online
+storageDefaultAvailability: ONLINE
+storageMountFailedCheckFile: NO_MOUNT
+storageCheckStorageFileSystemStatus: true
+objectClass: top
+objectClass: dcm4cheeFilesystemgroup
+
+
+dn: cn=XDSRepository,dicomDeviceName=dcm4chee-storage,cn=Devices,cn=DICOM Configurat
+ ion,dc=example,dc=com
+xdsApplicationName: XDS_REPOSITORY1
+xdsRepositoryUID: 1.2.3.4
+objectClass: xdsRepository
+objectClass: top
+xdsAllowedCipherHostname: *
+xdsForceMTOM: FALSE
+xdsRetrieveURL: http://localhost:8080/xds/repository
+cn: XDSRepository
+xdsSoapMsgLogDir: /var/log/xdslog
+xdsAcceptedMimeTypes: application/xml
+xdsAcceptedMimeTypes: application/dicom
+xdsAcceptedMimeTypes: application/pdf
+xdsAcceptedMimeTypes: text/plain
+xdsAcceptedMimeTypes: text/xml
+xdsProvideURL: http://localhost:8080/xds/repository
+xdsCheckMimetype: FALSE
+
+
