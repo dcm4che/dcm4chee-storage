@@ -171,7 +171,6 @@ public class StorageServiceImpl implements StorageService {
             filePath = pathFormatter.format(obj);
         }
         Path fullPath = basePath.resolve(filePath.replace('/', File.separatorChar));
-        Path dirPath = fullPath.getParent();
         String filename = fullPath.getFileName().toString();
         Files.createDirectories(fullPath.getParent());
         int copy = 1;
@@ -179,7 +178,7 @@ public class StorageServiceImpl implements StorageService {
             try {
                 return Files.createFile(fullPath);
             } catch (IOException x) {
-                fullPath = dirPath.resolveSibling(filename + '.' + copy++);
+                fullPath = fullPath.resolveSibling(filename + '.' + copy++);
             }
         }
         
