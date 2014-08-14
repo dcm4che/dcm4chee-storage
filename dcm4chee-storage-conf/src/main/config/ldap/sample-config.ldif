@@ -1,64 +1,97 @@
-dn: cn=Devices,cn=DICOM Configuration,dc=example,dc=com
-cn: Devices
-objectClass: dicomDevicesRoot
-objectClass: top
+version: 1
 
-dn: dicomDeviceName=dcm4chee-storage,cn=Devices,cn=DICOM Configuration,dc=example,dc
- =com
-objectClass: dicomDevice
-objectClass: dcmDevice
+dn: dicomDeviceName=dcm4chee-storage,cn=Devices,cn=DICOM Configuration,dc=ex
+ ample,dc=com
 objectClass: top
+objectClass: dcmDevice
+objectClass: dicomDevice
 dicomDeviceName: dcm4chee-storage
 dicomInstalled: TRUE
 dicomInstitutionCode: (111.1111, 99DCM4CHEE, "Site A")
 dicomInstitutionName: Site A
-dicomIssuerOfAccessionNumber: XDS_A&1.2.40.0.13.1.1.999.111.1111&ISO
-dicomIssuerOfPatientID: XDS_A&1.2.40.0.13.1.1.999.111.1111&ISO
+dicomIssuerOfAccessionNumber: STORAGE_A&1.2.40.0.13.1.1.999.222.1111&ISO
+dicomIssuerOfPatientID: STORAGE_A&1.2.40.0.13.1.1.999.222.1111&ISO
 
-
-dn: cn=STORAGE,dicomDeviceName=dcm4chee-storage,cn=Devices,cn=DICOM Configurat
- ion,dc=example,dc=com
-storageApplicationName: STORE
-storageDescription: Test storage
+dn: cn=StorageProvider,dicomDeviceName=dcm4chee-storage,cn=Devices,cn=DICOM 
+ Configuration,dc=example,dc=com
+objectClass: top
 objectClass: dcm4cheeStorage
-objectClass: top
-cn: STORAGE
+cn: StorageProvider
+storageApplicationName: dcm4chee-store
 
-dn: cn=test_store,cn=STORAGE,dicomDeviceName=dcm4chee-storage,cn=Devices,cn=DI
- COM Configuration,dc=example,dc=com
-cn: test_store
+dn: cn=filesystemGroups,cn=StorageProvider,dicomDeviceName=dcm4chee-storage,
+ cn=Devices,cn=DICOM Configuration,dc=example,dc=com
+objectClass: top
 objectClass: dcmCollection
-objectClass: top
+cn: filesystemGroups
 
-dn: storageFileSystemGroupID=ONLINE_STORAGE,cn=test_store,cn=STORAGE,dicomDeviceName=dcm4chee-storage,c
- n=Devices,cn=DICOM Configuration,dc=example,dc=com
-storageFileSystemGroupID: ONLINE_STORAGE
-storageMinFreeDiskSpace: 10%
-storageDefaultStorageDirectory: /filesystem/online
-storageDefaultAvailability: ONLINE
-storageMountFailedCheckFile: NO_MOUNT
-storageCheckStorageFileSystemStatus: true
+dn: storageFilesystemGroupID=ONLINE_STORAGE,cn=filesystemGroups,cn=StoragePr
+ ovider,dicomDeviceName=dcm4chee-storage,cn=Devices,cn=DICOM Configuration,d
+ c=example,dc=com
 objectClass: top
 objectClass: dcm4cheeFilesystemgroup
+storageCheckStorageFileSystemStatus: FALSE
+storageFileSystemGroupID: ONLINE_STORAGE
+storageMinFreeDiskSpace: 10%
 
-
-dn: cn=XDSRepository,dicomDeviceName=dcm4chee-storage,cn=Devices,cn=DICOM Configurat
- ion,dc=example,dc=com
-xdsApplicationName: XDS_REPOSITORY1
-xdsRepositoryUID: 1.2.3.4
-objectClass: xdsRepository
+dn: cn=filesystems,storageFilesystemGroupID=ONLINE_STORAGE,cn=filesystemGrou
+ ps,cn=StorageProvider,dicomDeviceName=dcm4chee-storage,cn=Devices,cn=DICOM 
+ Configuration,dc=example,dc=com
 objectClass: top
-xdsAllowedCipherHostname: *
-xdsForceMTOM: FALSE
-xdsRetrieveURL: http://localhost:8080/xds/repository
-cn: XDSRepository
-xdsSoapMsgLogDir: /var/log/xdslog
-xdsAcceptedMimeTypes: application/xml
-xdsAcceptedMimeTypes: application/dicom
-xdsAcceptedMimeTypes: application/pdf
-xdsAcceptedMimeTypes: text/plain
-xdsAcceptedMimeTypes: text/xml
-xdsProvideURL: http://localhost:8080/xds/repository
-xdsCheckMimetype: FALSE
+objectClass: dcmCollection
+cn: filesystems
 
+dn: storageFilesystemID=online_2,cn=filesystems,storageFilesystemGroupID=ONL
+ INE_STORAGE,cn=filesystemGroups,cn=StorageProvider,dicomDeviceName=dcm4chee
+ -storage,cn=Devices,cn=DICOM Configuration,dc=example,dc=com
+objectClass: top
+objectClass: dcm4cheeFilesystem
+storageFileSystemAvailability: ONLINE
+storageFileSystemID: online_2
+storageFileSystemPriority: 2
+storageFileSystemReadable: TRUE
+storageFileSystemURI: file:///storage/online/fs2
+storageFileSystemWritable: TRUE
+storageNextFileSystemReference: online_1
+
+dn: storageFilesystemID=online_1,cn=filesystems,storageFilesystemGroupID=ONL
+ INE_STORAGE,cn=filesystemGroups,cn=StorageProvider,dicomDeviceName=dcm4chee
+ -storage,cn=Devices,cn=DICOM Configuration,dc=example,dc=com
+objectClass: top
+objectClass: dcm4cheeFilesystem
+storageFileSystemAvailability: ONLINE
+storageFileSystemID: online_1
+storageFileSystemPriority: 1
+storageFileSystemReadable: TRUE
+storageFileSystemURI: file:///storage/online/fs1
+storageFileSystemWritable: TRUE
+storageNextFileSystemReference: online_2
+
+dn: storageFilesystemGroupID=NEARLINE_STORAGE,cn=filesystemGroups,cn=Storage
+ Provider,dicomDeviceName=dcm4chee-storage,cn=Devices,cn=DICOM Configuration
+ ,dc=example,dc=com
+objectClass: top
+objectClass: dcm4cheeFilesystemgroup
+storageCheckStorageFileSystemStatus: FALSE
+storageFileSystemGroupID: NEARLINE_STORAGE
+storageMinFreeDiskSpace: 100MB
+
+dn: cn=filesystems,storageFilesystemGroupID=NEARLINE_STORAGE,cn=filesystemGr
+ oups,cn=StorageProvider,dicomDeviceName=dcm4chee-storage,cn=Devices,cn=DICO
+ M Configuration,dc=example,dc=com
+objectClass: top
+objectClass: dcmCollection
+cn: filesystems
+
+dn: storageFilesystemID=nearline_1,cn=filesystems,storageFilesystemGroupID=N
+ EARLINE_STORAGE,cn=filesystemGroups,cn=StorageProvider,dicomDeviceName=dcm4
+ chee-storage,cn=Devices,cn=DICOM Configuration,dc=example,dc=com
+objectClass: top
+objectClass: dcm4cheeFilesystem
+storageFileSystemAvailability: NEARLINE
+storageFileSystemID: nearline_1
+storageFileSystemPriority: 1
+storageFileSystemReadable: TRUE
+storageFileSystemURI: file:///storage/nearline/fs1
+storageFileSystemWritable: FALSE
 
