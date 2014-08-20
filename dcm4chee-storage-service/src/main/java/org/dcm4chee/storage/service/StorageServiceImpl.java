@@ -127,29 +127,35 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public Filesystem getRWFilesystem(String groupID, long filesize) throws ConfigurationException {
-        Filesystem fs = cfg.getFilesystemGroup(groupID).getFilesystem(currentFilesystem.get(groupID));
-        if (fs == null) {
-            fs = cfg.getWritableFilesystem(groupID);
-            if (fs == null) 
-                throw new ConfigurationException("No writable Filesystem configured in group "+groupID);
-            currentFilesystem.put(groupID, fs.getId());
-        }
         FilesystemGroup grp = this.getFilesystemGroupCfg(groupID);
-        long minFree = getMinFree(grp, fs);
-        long requiredSpace = filesize + minFree;
-        Filesystem tmp = fs;
-        String mountCheckFile = grp.getMountFailedCheckFile();
-        while (!isMounted(tmp, mountCheckFile) || !checkFreeSpace(tmp, requiredSpace)) {
-            log.info("RW filesystem {} has not enough free space ({} bytes)! Switch to next filesystem.", tmp, requiredSpace);
-            tmp = switchFilesystem(tmp);
-            if (tmp == null || tmp.equals(fs)) {
-                log.error("No RW filesystem in group {} with sufficient space ({} bytes) available!", groupID, requiredSpace);
-                return null;
+        synchronized (grp) {
+            Filesystem fs = grp.getFilesystem(currentFilesystem.get(groupID));
+            if (fs == null) {
+                fs = cfg.getWritableFilesystem(groupID);
+                if (fs == null) 
+                    throw new ConfigurationException("No writable Filesystem configured in group "+groupID);
+                currentFilesystem.put(groupID, fs.getId());
             }
+            long minFree = getMinFree(grp, fs);
+            long requiredSpace = filesize + minFree;
+            Filesystem tmp = fs;
+            String mountCheckFile = grp.getMountFailedCheckFile();
+            while (!isMounted(tmp, mountCheckFile) || !checkFreeSpace(tmp, requiredSpace)) {
+                log.info("Filesystem {} has not enough free space ({} bytes)! Switch to next filesystem.", tmp, requiredSpace);
+                tmp = switchFilesystem(tmp);
+                if (tmp == null || tmp.equals(fs)) {
+                    log.error("No writable filesystem in group {} with sufficient space ({} bytes) available!", groupID, requiredSpace);
+                    return null;
+                }
+            }
+            if (tmp == fs) {
+                log.debug("use current filesystem:{}", tmp);   
+            } else {
+                log.debug("Writable filesystem found:{}", tmp);
+                currentFilesystem.put(groupID, tmp.getId());
+            }
+            return tmp;
         }
-        log.info("RW filesystem found:{}", tmp);
-        currentFilesystem.put(groupID, tmp.getId());
-        return tmp;
     }
 
     @Override

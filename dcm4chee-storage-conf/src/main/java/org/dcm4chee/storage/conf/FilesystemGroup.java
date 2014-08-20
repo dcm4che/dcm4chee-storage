@@ -88,16 +88,13 @@ public class FilesystemGroup implements Serializable {
         return id;
     }
 
-
     public void setId(String id) {
         this.id = id;
     }
 
-
     public String getMinFreeDiskSpace() {
         return minFreeDiskSpace;
     }
-
 
     public void setMinFreeDiskSpace(String storageMinFreeDiskSpace) {
         byteSize = new ByteSize(storageMinFreeDiskSpace);
@@ -107,28 +104,27 @@ public class FilesystemGroup implements Serializable {
     public ByteSize getMinFreeDiskSpaceByteSize() {
         return byteSize;
     }
-    
+
     public String getMountFailedCheckFile() {
         return mountFailedCheckFile;
     }
-
 
     public void setMountFailedCheckFile(String mountFailedCheckFile) {
         this.mountFailedCheckFile = mountFailedCheckFile;
     }
 
-
     public boolean isCheckStorageFileSystemStatus() {
         return checkStorageFileSystemStatus;
     }
 
-
     public void setCheckStorageFileSystemStatus(boolean checkStorageFileSystemStatus) {
         this.checkStorageFileSystemStatus = checkStorageFileSystemStatus;
     }
+
     public Map<String, Filesystem> getFilesystems() {
         return filesystems;
     }
+
     public void setFilesystems(Map<String, Filesystem> filesystems) throws ConfigurationException {
         this.filesystems = filesystems;
         for (Filesystem fs : filesystems.values()) {
@@ -162,4 +158,5 @@ public class FilesystemGroup implements Serializable {
     public Filesystem getFilesystem(String filesystemID) {
         return filesystems.get(filesystemID);
     }
+
 }
