@@ -210,9 +210,9 @@
     </repository>
   </distributionManagement>
 <scm>
-    <connection>scm:git:https://github.com/dcm4che/dcm4chee-xds.git</connection>
-    <developerConnection>scm:git:https://github.com/dcm4che/dcm4chee-xds.git</developerConnection>
-    <url>https://github.com/dcm4che/dcm4chee-xds</url>
+    <connection>scm:git:https://github.com/dcm4che/dcm4chee-storage.git</connection>
+    <developerConnection>scm:git:https://github.com/dcm4che/dcm4chee-storage.git</developerConnection>
+    <url>https://github.com/dcm4che/dcm4chee-storage</url>
   <tag>HEAD</tag>
   </scm>
 </project>
