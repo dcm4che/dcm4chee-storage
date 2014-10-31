@@ -28,7 +28,7 @@
 	<parent>
 		<groupId>org.dcm4che</groupId>
 		<artifactId>dcm4chee-storage-parent</artifactId>
-		<version>1.0.1-SNAPSHOT</version>
+		<version>1.0.1</version>
 	</parent>
 	<artifactId>dcm4chee-storage-service</artifactId>
 	<packaging>jar</packaging>
@@ -36,7 +36,6 @@
 		<dependency>
 			<groupId>org.dcm4che</groupId>
 			<artifactId>dcm4chee-storage-entity</artifactId>
-			<classifier>${db}</classifier>
 			<version>${project.version}</version>
 			<scope>provided</scope>
 		</dependency>
