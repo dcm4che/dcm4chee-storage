@@ -50,14 +50,9 @@
     <hibernate.version>4.0.1.Final</hibernate.version>
     <querydsl.version>3.2.3</querydsl.version>
     <javaee6.with.tools.version>1.0.7.Final</javaee6.with.tools.version>
-    <db>oracle</db>
-    <ds>java:/storageDS</ds>
-    <show_sql>false</show_sql>
-    <hbm2ddl.auto>update</hbm2ddl.auto>
     <shrinkwrap.resolver.version>2.0.2</shrinkwrap.resolver.version>
     <jboss.version>6.0.0.Final</jboss.version>
     <skipTests>true</skipTests>
-    <asb />
   </properties>
 
   <modules>
