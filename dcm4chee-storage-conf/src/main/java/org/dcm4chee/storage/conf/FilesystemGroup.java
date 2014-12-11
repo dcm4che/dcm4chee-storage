@@ -38,23 +38,23 @@
 
 package org.dcm4chee.storage.conf;
 
+import org.dcm4che3.conf.api.ConfigurationException;
+import org.dcm4che3.conf.core.api.ConfigurableClass;
+import org.dcm4che3.conf.core.api.ConfigurableProperty;
+import org.dcm4che3.conf.core.api.LDAP;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.dcm4che3.conf.api.ConfigurationException;
-import org.dcm4che3.conf.api.generic.ConfigClass;
-import org.dcm4che3.conf.api.generic.ConfigField;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * @author Franz Willer <franz.willer@gmail.com>
  */
-
-@ConfigClass(commonName = "FilesystemGroup", objectClass = "dcm4cheeFilesystemgroup", nodeName = "filesystemGroup")
+@LDAP(objectClasses = "dcm4cheeFilesystemgroup")
+@ConfigurableClass
 public class FilesystemGroup implements Serializable {
-
 
     private static final long serialVersionUID = -8258532093950989486L;
     private static Logger log = LoggerFactory.getLogger(FilesystemGroup.class);
@@ -67,21 +67,22 @@ public class FilesystemGroup implements Serializable {
         setMinFreeDiskSpace(minFreeDiskSpace);
     }
 
-    @ConfigField(name = "storageFileSystemGroupID")
+    @ConfigurableProperty(name = "storageFileSystemGroupID")
     private String id;
 
-    @ConfigField(name = "storageMinFreeDiskSpace")
+    @ConfigurableProperty(name = "storageMinFreeDiskSpace")
     private String minFreeDiskSpace;
     
     private ByteSize byteSize;
 
-    @ConfigField(name = "storageMountFailedCheckFile")
+    @ConfigurableProperty(name = "storageMountFailedCheckFile")
     private String mountFailedCheckFile;
 
-    @ConfigField(name = "storageCheckStorageFileSystemStatus")
+    @ConfigurableProperty(name = "storageCheckStorageFileSystemStatus")
     private boolean checkStorageFileSystemStatus;
 
-    @ConfigField(mapName = "filesystems", mapKey = "storageFilesystemID", name = "storageFilesystems", mapElementObjectClass = "filesystemByID")
+    @LDAP(distinguishingField = "storageFilesystemID")
+    @ConfigurableProperty(name = "filesystems")
     private Map<String, Filesystem> filesystems = new HashMap<String, Filesystem>(5);
 
     public String getId() {

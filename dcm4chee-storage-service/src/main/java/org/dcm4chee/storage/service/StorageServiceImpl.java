@@ -80,6 +80,8 @@ public class StorageServiceImpl implements StorageService {
     @Storage    
     private DicomConfiguration conf;
 
+
+
     @Inject
     @Storage    
     private Device device;

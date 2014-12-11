@@ -38,22 +38,24 @@
 
 package org.dcm4chee.storage.conf;
 
+import org.dcm4che3.conf.api.ConfigurationException;
+import org.dcm4che3.conf.core.api.ConfigurableClass;
+import org.dcm4che3.conf.core.api.ConfigurableProperty;
+import org.dcm4che3.conf.core.api.LDAP;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.Serializable;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.dcm4che3.conf.api.ConfigurationException;
-import org.dcm4che3.conf.api.generic.ConfigClass;
-import org.dcm4che3.conf.api.generic.ConfigField;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * @author Franz Willer <franz.willer@gmail.com>
  */
 
-@ConfigClass(commonName = "Filesystem", objectClass = "dcm4cheeFilesystem", nodeName = "filesystem")
+@LDAP(objectClasses = "dcm4cheeFilesystem")
+@ConfigurableClass
 public class Filesystem implements Serializable {
 
 
@@ -75,25 +77,25 @@ public class Filesystem implements Serializable {
         this.setAvailability(availability);
     }
 
-    @ConfigField(name = "storageFileSystemID")
+    @ConfigurableProperty(name = "storageFileSystemID")
     private String id;
 
-    @ConfigField(name = "storageFileSystemURI")
+    @ConfigurableProperty(name = "storageFileSystemURI")
     private String uri;
 
-    @ConfigField(name = "storageFileSystemAvailability")
+    @ConfigurableProperty(name = "storageFileSystemAvailability")
     private Availability availability;
 
-    @ConfigField(name = "storageFileSystemReadable")
+    @ConfigurableProperty(name = "storageFileSystemReadable")
     private boolean readable;
 
-    @ConfigField(name = "storageFileSystemWritable")
+    @ConfigurableProperty(name = "storageFileSystemWritable")
     private boolean writable;
 
-    @ConfigField(name = "storageFileSystemPriority")
+    @ConfigurableProperty(name = "storageFileSystemPriority")
     private int priority;
 
-    @ConfigField(name = "storageNextFileSystemReference")
+    @ConfigurableProperty(name = "storageNextFileSystemReference")
     private String nextFilesystemReference;
     
     private  Filesystem nextFilesystem;

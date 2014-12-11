@@ -38,37 +38,38 @@
 
 package org.dcm4chee.storage.conf;
 
+import org.dcm4che3.conf.api.ConfigurationException;
+import org.dcm4che3.conf.core.api.ConfigurableClass;
+import org.dcm4che3.conf.core.api.ConfigurableProperty;
+import org.dcm4che3.conf.core.api.LDAP;
+import org.dcm4che3.conf.core.util.ConfigIterators;
+import org.dcm4che3.net.DeviceExtension;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.dcm4che3.conf.api.ConfigurationException;
-import org.dcm4che3.conf.api.generic.ConfigClass;
-import org.dcm4che3.conf.api.generic.ConfigField;
-import org.dcm4che3.conf.api.generic.ReflectiveConfig;
-import org.dcm4che3.net.DeviceExtension;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 /**
  * @author Franz Willer <franz.willer@gmail.com>
  */
-
-@ConfigClass(commonName = "StorageProvider", objectClass = "dcm4cheeStorage", nodeName = "fileStorage")
+@LDAP(objectClasses = "dcm4cheeStorage")
+@ConfigurableClass
 public class StorageConfiguration extends DeviceExtension {
-
 
     private static final long serialVersionUID = -8258532093950989486L;
     private static Logger log = LoggerFactory.getLogger(StorageConfiguration.class);
 
-    @ConfigField(name = "storageApplicationName")
+    @ConfigurableProperty(name = "storageApplicationName")
     private String applicationName;
 
-    @ConfigField(mapName = "filesystemGroups", mapKey = "storageFilesystemGroupID", name = "storageFilesystemGroups", mapElementObjectClass = "filesystemGroupByID")
+    @LDAP(distinguishingField = "storageFilesystemGroupID")
+    @ConfigurableProperty(name = "filesystemGroups")
     private Map<String, FilesystemGroup> filesystemGroups = new HashMap<String, FilesystemGroup>(5);
 
-    @ConfigField(name = "storageDescription")
+    @ConfigurableProperty(name = "storageDescription")
     private String description;
 
     public String getApplicationName() {
@@ -155,7 +156,7 @@ public class StorageConfiguration extends DeviceExtension {
     @Override
     public void reconfigure(DeviceExtension from) {
         StorageConfiguration src = (StorageConfiguration) from;
-        ReflectiveConfig.reconfigure(src, this);
+        ConfigIterators.reconfigure(src, this, StorageConfiguration.class);
     }
 
 }
