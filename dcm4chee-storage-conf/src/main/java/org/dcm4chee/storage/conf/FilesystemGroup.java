@@ -62,27 +62,31 @@ public class FilesystemGroup implements Serializable {
     public FilesystemGroup() {
 
     }
+
     public FilesystemGroup(String groupID, String minFreeDiskSpace) {
         this.id = groupID;
         setMinFreeDiskSpace(minFreeDiskSpace);
     }
 
-    @ConfigurableProperty(name = "storageFileSystemGroupID")
+    @ConfigurableProperty(name = "storageFileSystemGroupID", label = "Group ID")
     private String id;
 
-    @ConfigurableProperty(name = "storageMinFreeDiskSpace")
+    @ConfigurableProperty(
+            name = "storageMinFreeDiskSpace",
+            label = "Min. free space",
+            description = "Threshold of free space of active Storage System in format &lt;integer&gt;{kB|MB|GB|KiB|MiB|GiB} or &lt;integer&gt;%")
     private String minFreeDiskSpace;
-    
+
     private ByteSize byteSize;
 
-    @ConfigurableProperty(name = "storageMountFailedCheckFile")
+    @ConfigurableProperty(name = "storageMountFailedCheckFile",
+            label = "Mount fail check file",
+            description = "Specifies path of file which appearance indicates a failed mount"
+    )
     private String mountFailedCheckFile;
 
-    @ConfigurableProperty(name = "storageCheckStorageFileSystemStatus")
-    private boolean checkStorageFileSystemStatus;
-
     @LDAP(distinguishingField = "storageFilesystemID")
-    @ConfigurableProperty(name = "filesystems")
+    @ConfigurableProperty(name = "filesystems", label = "File systems", order = 4)
     private Map<String, Filesystem> filesystems = new HashMap<String, Filesystem>(5);
 
     public String getId() {
@@ -114,14 +118,6 @@ public class FilesystemGroup implements Serializable {
         this.mountFailedCheckFile = mountFailedCheckFile;
     }
 
-    public boolean isCheckStorageFileSystemStatus() {
-        return checkStorageFileSystemStatus;
-    }
-
-    public void setCheckStorageFileSystemStatus(boolean checkStorageFileSystemStatus) {
-        this.checkStorageFileSystemStatus = checkStorageFileSystemStatus;
-    }
-
     public Map<String, Filesystem> getFilesystems() {
         return filesystems;
     }
@@ -135,7 +131,7 @@ public class FilesystemGroup implements Serializable {
 
     public void addFilesystem(Filesystem fs) {
         if (filesystems.containsKey(fs.getId()))
-            throw new IllegalArgumentException("This filesystem group already contains a filesystem with id "+fs.getId());
+            throw new IllegalArgumentException("This filesystem group already contains a filesystem with id " + fs.getId());
         filesystems.put(fs.getId(), fs);
     }
 

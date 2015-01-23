@@ -65,10 +65,11 @@ public class Filesystem implements Serializable {
     public Filesystem() {
     }
 
-    public Filesystem(String id, String uri, int priority, Availability availability) {
-        this(id, uri,priority, true, true, availability);
+    public Filesystem(String id, String uri, int priority, StorageAvailability availability) {
+        this(id, uri, priority, true, true, availability);
     }
-    public Filesystem(String id, String uri, int priority, boolean read, boolean write, Availability availability) {
+
+    public Filesystem(String id, String uri, int priority, boolean read, boolean write, StorageAvailability availability) {
         this.setId(id);
         this.setUri(uri);
         this.priority = priority;
@@ -77,46 +78,71 @@ public class Filesystem implements Serializable {
         this.setAvailability(availability);
     }
 
-    @ConfigurableProperty(name = "storageFileSystemID")
+    @ConfigurableProperty(name = "storageFileSystemID",
+            label = "ID"
+    )
     private String id;
 
-    @ConfigurableProperty(name = "storageFileSystemURI")
-    private String uri;
+    @ConfigurableProperty(name = "storageNextFileSystemReference",
+            label = "Next file system ID",
+            description = "ID of the file system to switch to if the current one cannot be used anymore (for example full or unavailable)",
+            order = 1)
+    private String nextFilesystemReference;
 
-    @ConfigurableProperty(name = "storageFileSystemAvailability")
-    private Availability availability;
+    @ConfigurableProperty(name = "storageFileSystemAvailability",
+            label = "Availability",
+            order = 2
+    )
+    private StorageAvailability availability;
 
-    @ConfigurableProperty(name = "storageFileSystemReadable")
-    private boolean readable;
-
-    @ConfigurableProperty(name = "storageFileSystemWritable")
-    private boolean writable;
-
-    @ConfigurableProperty(name = "storageFileSystemPriority")
+    @ConfigurableProperty(name = "storageFileSystemPriority",
+            label = "Priority",
+            description = "If more than one file system is used, this value determines usage priority. Higher value takes precedence over lower values.",
+            order = 3)
     private int priority;
 
-    @ConfigurableProperty(name = "storageNextFileSystemReference")
-    private String nextFilesystemReference;
-    
-    private  Filesystem nextFilesystem;
+    @ConfigurableProperty(name = "storageFileSystemURI",
+            label = "URI",
+            description = "How to physically access this filesystem",
+            order = 4
+    )
+    private String uri;
+
+    @ConfigurableProperty(name = "storageFileSystemReadable",
+            label = "Readable",
+            order = 5
+    )
+    private boolean readable;
+
+    @ConfigurableProperty(name = "storageFileSystemWritable",
+            label = "Writable",
+            order = 6
+
+    )
+    private boolean writable;
+
+    private Filesystem nextFilesystem;
 
     public String getId() {
         return id;
     }
+
     public void setId(String id) {
         if (id == null)
             throw new IllegalArgumentException("Filesystem ID must not be null");
         this.id = id;
     }
+
     public String getUri() {
         return uri;
     }
+
     public void setUri(String uri) {
         if (uri == null)
             throw new IllegalArgumentException("Filesystem URI must not be null");
         this.uri = uri;
     }
-    
+
     public Path getPath() {
         try {
             return Paths.get(new URI(uri));
@@ -133,10 +159,11 @@ public class Filesystem implements Serializable {
         this.priority = priority;
     }
 
-    public Availability getAvailability() {
+    public StorageAvailability getAvailability() {
         return availability;
     }
-    public void setAvailability(Availability availability) {
+
+    public void setAvailability(StorageAvailability availability) {
         if (availability == null)
             throw new IllegalArgumentException("Availability must not be null");
         this.availability = availability;
@@ -162,6 +189,7 @@ public class Filesystem implements Serializable {
         setNextFilesystemReference(fs == null ? null : fs.getId());
         nextFilesystem = fs;
     }
+
     void initNextFilesystem(FilesystemGroup grp) {
         if (nextFilesystemReference != null) {
             nextFilesystem = grp.getFilesystem(nextFilesystemReference);
@@ -171,6 +199,7 @@ public class Filesystem implements Serializable {
             nextFilesystem = null;
         }
     }
+
     public Filesystem getNextFilesystem() {
         return nextFilesystem;
     }
@@ -178,6 +207,7 @@ public class Filesystem implements Serializable {
     public String getNextFilesystemReference() {
         return nextFilesystemReference;
     }
+
     public void setNextFilesystemReference(String next) throws ConfigurationException {
         if (next != null && next.equals(this.id)) {
             throw new ConfigurationException("Next filesystem must not reference itself!");
@@ -201,9 +231,9 @@ public class Filesystem implements Serializable {
     public boolean equals(Object o) {
         if (o == null || !(o instanceof Filesystem))
             return false;
-        return ((Filesystem)o).id.equals(id);
+        return ((Filesystem) o).id.equals(id);
     }
-    
+
     @Override
     public int hashCode() {
         return id.hashCode();

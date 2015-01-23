@@ -43,7 +43,7 @@ package org.dcm4chee.storage.conf;
  * @author Justin Falk <jfalkmu@gmail.com>
  * @author Gunter Zeilinger <gunterze@gmail.com>
  */
-public enum Availability {
+public enum StorageAvailability {
     ONLINE,
     NEARLINE,
     OFFLINE,

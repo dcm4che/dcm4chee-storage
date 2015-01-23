@@ -50,8 +50,6 @@ import org.dcm4che3.data.Code;
 import org.dcm4che3.data.Issuer;
 import org.dcm4che3.net.Device;
 import org.dcm4che3.net.DeviceExtension;
-import org.dcm4chee.storage.conf.FilesystemGroup;
-import org.dcm4chee.storage.conf.StorageConfiguration;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
@@ -135,7 +133,6 @@ public class StorageConfigTestBase {
         FilesystemGroup groupCfg = new FilesystemGroup(ONLINE_STORAGE,"10%");
         cfg.setApplicationName(ONLINE_STORAGE);
         groupCfg.setMountFailedCheckFile(NO_MOUNT);
-        groupCfg.setCheckStorageFileSystemStatus(false);
         cfg.addFilesystemGroup(groupCfg);
         d.addDeviceExtension(cfg);
         config.persist(d);
@@ -174,9 +171,8 @@ public class StorageConfigTestBase {
         FilesystemGroup groupCfg = new FilesystemGroup(ONLINE_STORAGE,"10%");
         cfg.setApplicationName(ONLINE_STORAGE);
         groupCfg.setMountFailedCheckFile(NO_MOUNT);
-        groupCfg.setCheckStorageFileSystemStatus(false);
         cfg.addFilesystemGroup(groupCfg);
-        Filesystem fs = new Filesystem("online_1", "file:///storage/online/fs1", 1, Availability.ONLINE);
+        Filesystem fs = new Filesystem("online_1", "file:///storage/online/fs1", 1, StorageAvailability.ONLINE);
         groupCfg.addFilesystem(fs);
         d.addDeviceExtension(cfg);
         config.persist(d);
@@ -212,7 +208,6 @@ public class StorageConfigTestBase {
         // modify and merge
 
         FilesystemGroup groupCfg = new FilesystemGroup();
-        groupCfg.setCheckStorageFileSystemStatus(false);
         groupCfg.setId("MODIFIED");
         groupCfg.setMountFailedCheckFile("NOT_MOUNTED");
         groupCfg.setMinFreeDiskSpace("100MB");
@@ -232,10 +227,10 @@ public class StorageConfigTestBase {
 
         StorageConfiguration cfg = new StorageConfiguration();
         FilesystemGroup onlineCfg = new FilesystemGroup(ONLINE_STORAGE, "10%");
-        Filesystem fs1 = new Filesystem("online_1", "file:///storage/online/fs1", 1, Availability.ONLINE);
-        Filesystem fs2 = new Filesystem("online_2", "file:///storage/online/fs2", 2, Availability.ONLINE);
-        Filesystem fs3 = new Filesystem("online_3", "file:///storage/online/fs3", 99, Availability.ONLINE);
-        Filesystem fs4 = new Filesystem("online_4", "file:///storage/online/fs4", 999, Availability.NEARLINE);
+        Filesystem fs1 = new Filesystem("online_1", "file:///storage/online/fs1", 1, StorageAvailability.ONLINE);
+        Filesystem fs2 = new Filesystem("online_2", "file:///storage/online/fs2", 2, StorageAvailability.ONLINE);
+        Filesystem fs3 = new Filesystem("online_3", "file:///storage/online/fs3", 99, StorageAvailability.ONLINE);
+        Filesystem fs4 = new Filesystem("online_4", "file:///storage/online/fs4", 999, StorageAvailability.NEARLINE);
         fs1.setNextFilesystem(fs2);
         fs2.setNextFilesystem(fs1);
         onlineCfg.addFilesystem(fs1);
@@ -267,7 +262,7 @@ public class StorageConfigTestBase {
         checkWritableFS(d, fs4);
 
         onlineCfg.addFilesystem(fs3);
-        fs4.setAvailability(Availability.ONLINE);
+        fs4.setAvailability(StorageAvailability.ONLINE);
         config.merge(d);
         checkWritableFS(d, fs4);
 
@@ -316,15 +311,15 @@ public class StorageConfigTestBase {
 
         StorageConfiguration cfg = new StorageConfiguration();
         FilesystemGroup onlineCfg = new FilesystemGroup(ONLINE_STORAGE,"10%");
-        Filesystem fs1 = new Filesystem("online_1", "file:///storage/online/fs1", 1, Availability.ONLINE);
-        Filesystem fs2 = new Filesystem("online_2", "file:///storage/online/fs2", 2, Availability.ONLINE);
+        Filesystem fs1 = new Filesystem("online_1", "file:///storage/online/fs1", 1, StorageAvailability.ONLINE);
+        Filesystem fs2 = new Filesystem("online_2", "file:///storage/online/fs2", 2, StorageAvailability.ONLINE);
         fs1.setNextFilesystem(fs2);
         fs2.setNextFilesystem(fs1);
         onlineCfg.addFilesystem(fs1);
         onlineCfg.addFilesystem(fs2);
         cfg.addFilesystemGroup(onlineCfg);
         FilesystemGroup nearlineCfg = new FilesystemGroup(NEARLINE_STORAGE,"100MB");
-        Filesystem fs3 = new Filesystem("nearline_1", "file:///storage/nearline/fs1", 1, true, false, Availability.NEARLINE);
+        Filesystem fs3 = new Filesystem("nearline_1", "file:///storage/nearline/fs1", 1, true, false, StorageAvailability.NEARLINE);
         nearlineCfg.addFilesystem(fs3);
         cfg.addFilesystemGroup(nearlineCfg);
         cfg.setApplicationName(DEFAULT_STORAGE_APPNAME);

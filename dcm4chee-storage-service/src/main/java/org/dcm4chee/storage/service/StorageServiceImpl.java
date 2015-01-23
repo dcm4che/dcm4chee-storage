@@ -53,13 +53,14 @@ import java.util.HashMap;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Any;
 import javax.inject.Inject;
 
 import org.dcm4che3.conf.api.ConfigurationException;
 import org.dcm4che3.conf.api.DicomConfiguration;
 import org.dcm4che3.net.Device;
 import org.dcm4che3.util.TagUtils;
-import org.dcm4chee.storage.conf.Availability;
+import org.dcm4chee.storage.conf.StorageAvailability;
 import org.dcm4chee.storage.conf.ByteSize;
 import org.dcm4chee.storage.conf.Filesystem;
 import org.dcm4chee.storage.conf.FilesystemGroup;
@@ -77,7 +78,7 @@ public class StorageServiceImpl implements StorageService {
     private static final int BUFFER_SIZE = 65536;
 
     @Inject
-    @Storage    
+    @Any
     private DicomConfiguration conf;
 
 
@@ -337,7 +338,7 @@ public class StorageServiceImpl implements StorageService {
             log.debug("Next configured Filesystem of {} is {}!", fs, next);
             if (next == null || next.getId().equals(fs.getId()))
                 return null;
-        } while (!next.isWritable() || next.getAvailability().ordinal() > Availability.NEARLINE.ordinal());
+        } while (!next.isWritable() || next.getAvailability().ordinal() > StorageAvailability.NEARLINE.ordinal());
         log.debug("Next valid Filesystem of {} is {}!", fs, next);
         return next;
     }

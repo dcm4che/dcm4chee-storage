@@ -62,14 +62,17 @@ public class StorageConfiguration extends DeviceExtension {
     private static final long serialVersionUID = -8258532093950989486L;
     private static Logger log = LoggerFactory.getLogger(StorageConfiguration.class);
 
-    @ConfigurableProperty(name = "storageApplicationName")
+    @ConfigurableProperty(name = "storageApplicationName",
+    label = "Application name"
+    )
     private String applicationName;
 
     @LDAP(distinguishingField = "storageFilesystemGroupID")
-    @ConfigurableProperty(name = "filesystemGroups")
+    @ConfigurableProperty(name = "filesystemGroups",
+    label = "File system groups")
     private Map<String, FilesystemGroup> filesystemGroups = new HashMap<String, FilesystemGroup>(5);
 
-    @ConfigurableProperty(name = "storageDescription")
+    @ConfigurableProperty(name = "storageDescription", label = "Description")
     private String description;
 
     public String getApplicationName() {
@@ -120,7 +123,7 @@ public class StorageConfiguration extends DeviceExtension {
         if (grp == null)
             throw new ConfigurationException("Filesystem group "+groupID+" is not configured!");
         Filesystem fs = null;
-        int avail = Availability.OFFLINE.ordinal();
+        int avail = StorageAvailability.OFFLINE.ordinal();
         int prio = Integer.MIN_VALUE;
         for ( Filesystem fsTmp : grp.getFilesystems().values() ) {
             log.debug("Filesystem:{} current writable filesystem:", fsTmp, fs);
@@ -146,7 +149,7 @@ public class StorageConfiguration extends DeviceExtension {
             throw new ConfigurationException("Filesystem group "+groupID+" is not configured!");
         ArrayList<Filesystem> fsList = new ArrayList<Filesystem>();
         for ( Filesystem fsTmp : grp.getFilesystems().values() ) {
-            if (fsTmp.isWritable() && fsTmp.getAvailability().ordinal() < Availability.OFFLINE.ordinal()) {
+            if (fsTmp.isWritable() && fsTmp.getAvailability().ordinal() < StorageAvailability.OFFLINE.ordinal()) {
                 fsList.add(fsTmp);
             }
         }
