@@ -48,6 +48,7 @@ import org.slf4j.LoggerFactory;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 /**
  * @author Franz Willer <franz.willer@gmail.com>
@@ -87,7 +88,7 @@ public class FilesystemGroup implements Serializable {
 
     @LDAP(distinguishingField = "storageFilesystemID")
     @ConfigurableProperty(name = "filesystems", label = "File systems", order = 4)
-    private Map<String, Filesystem> filesystems = new HashMap<String, Filesystem>(5);
+    private Map<String, Filesystem> filesystems = new TreeMap<String, Filesystem>();
 
     public String getId() {
         return id;
