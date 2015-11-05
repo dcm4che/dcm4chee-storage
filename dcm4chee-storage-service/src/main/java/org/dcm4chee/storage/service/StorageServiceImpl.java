@@ -38,6 +38,19 @@
 
 package org.dcm4chee.storage.service;
 
+import org.dcm4che3.conf.api.DicomConfiguration;
+import org.dcm4che3.conf.core.api.ConfigurationException;
+import org.dcm4che3.net.Device;
+import org.dcm4che3.util.TagUtils;
+import org.dcm4chee.storage.conf.*;
+import org.dcm4chee.storage.entity.BaseFileRef;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Any;
+import javax.inject.Inject;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,25 +63,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.Format;
 import java.util.HashMap;
-
-import javax.annotation.PostConstruct;
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.inject.Any;
-import javax.inject.Inject;
-
-import org.dcm4che3.conf.api.ConfigurationException;
-import org.dcm4che3.conf.api.DicomConfiguration;
-import org.dcm4che3.net.Device;
-import org.dcm4che3.util.TagUtils;
-import org.dcm4chee.storage.conf.StorageAvailability;
-import org.dcm4chee.storage.conf.ByteSize;
-import org.dcm4chee.storage.conf.Filesystem;
-import org.dcm4chee.storage.conf.FilesystemGroup;
-import org.dcm4chee.storage.conf.Storage;
-import org.dcm4chee.storage.conf.StorageConfiguration;
-import org.dcm4chee.storage.entity.BaseFileRef;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @ApplicationScoped
 public class StorageServiceImpl implements StorageService {

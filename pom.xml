@@ -45,7 +45,7 @@
   <name>Generic Storage Implementation</name>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <dcm4che.version>3.3.6-SNAPSHOT</dcm4che.version>
+    <dcm4che.version>3.3.8-SNAPSHOT</dcm4che.version>
     <slf4j.version>1.6.1</slf4j.version>
     <hibernate.version>4.0.1.Final</hibernate.version>
     <querydsl.version>3.2.3</querydsl.version>
@@ -203,6 +203,20 @@
       <url>scp://www.dcm4che.org:443/home/maven2</url>
     </repository>
   </distributionManagement>
+  <profiles>
+      <profile>
+          <id>csp</id>
+          <properties>
+              <hap-repository.url/>
+          </properties>
+          <distributionManagement>
+              <repository>
+                  <id>hap-repository</id>
+                  <url>${hap-repository.url}</url>
+              </repository>
+          </distributionManagement>
+      </profile>
+  </profiles>
 <scm>
     <connection>scm:git:https://github.com/dcm4che/dcm4chee-storage.git</connection>
     <developerConnection>scm:git:https://github.com/dcm4che/dcm4chee-storage.git</developerConnection>

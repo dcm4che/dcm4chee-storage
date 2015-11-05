@@ -38,12 +38,11 @@
 
 package org.dcm4chee.storage.conf;
 
-import org.dcm4che3.conf.api.ConfigurationException;
+import org.dcm4che3.conf.api.extensions.CommonDeviceExtension;
 import org.dcm4che3.conf.core.api.ConfigurableClass;
 import org.dcm4che3.conf.core.api.ConfigurableProperty;
+import org.dcm4che3.conf.core.api.ConfigurationException;
 import org.dcm4che3.conf.core.api.LDAP;
-import org.dcm4che3.conf.core.util.ConfigIterators;
-import org.dcm4che3.net.DeviceExtension;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +56,7 @@ import java.util.Map;
  */
 @LDAP(objectClasses = "dcm4cheeStorage")
 @ConfigurableClass
-public class StorageConfiguration extends DeviceExtension {
+public class StorageConfiguration extends CommonDeviceExtension {
 
     private static final long serialVersionUID = -8258532093950989486L;
     private static Logger log = LoggerFactory.getLogger(StorageConfiguration.class);
@@ -156,10 +155,4 @@ public class StorageConfiguration extends DeviceExtension {
         return fsList;
     }
     
-    @Override
-    public void reconfigure(DeviceExtension from) {
-        StorageConfiguration src = (StorageConfiguration) from;
-        ConfigIterators.reconfigure(src, this, StorageConfiguration.class);
-    }
-
 }
