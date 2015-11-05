@@ -38,9 +38,9 @@
 
 package org.dcm4chee.storage.conf;
 
-import org.dcm4che3.conf.api.ConfigurationException;
 import org.dcm4che3.conf.core.api.ConfigurableClass;
 import org.dcm4che3.conf.core.api.ConfigurableProperty;
+import org.dcm4che3.conf.core.api.ConfigurationException;
 import org.dcm4che3.conf.core.api.LDAP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

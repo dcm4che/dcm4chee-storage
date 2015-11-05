@@ -43,9 +43,9 @@ import static org.junit.Assert.assertEquals;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.dcm4che3.conf.api.ConfigurationException;
 import org.dcm4che3.conf.api.ConfigurationNotFoundException;
 import org.dcm4che3.conf.api.DicomConfiguration;
+import org.dcm4che3.conf.core.api.ConfigurationException;
 import org.dcm4che3.data.Code;
 import org.dcm4che3.data.Issuer;
 import org.dcm4che3.net.Device;
@@ -76,8 +76,6 @@ public class StorageConfigTestBase {
     @After
     public void tearDown() throws Exception {
         cleanUp();
-        if (config != null)
-            config.close();
     }
 
     protected void cleanUp() throws Exception {
@@ -302,7 +300,7 @@ public class StorageConfigTestBase {
         try {
             if (config.findDevice(DEFAULT_STORAGE_DEVICE) != null)
                 return;
-        } catch (Exception e) {
+        } catch (Exception ignored) {
         }
 
         Device d = createDevice(DEFAULT_STORAGE_DEVICE, SITE_A, INST_A);

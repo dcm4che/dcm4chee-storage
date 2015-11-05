@@ -44,7 +44,7 @@ import java.nio.file.Path;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.dcm4che3.conf.api.ConfigurationException;
+import org.dcm4che3.conf.core.api.ConfigurationException;
 import org.dcm4che3.net.DeviceServiceInterface;
 import org.dcm4chee.storage.conf.Filesystem;
 import org.dcm4chee.storage.entity.BaseFileRef;
