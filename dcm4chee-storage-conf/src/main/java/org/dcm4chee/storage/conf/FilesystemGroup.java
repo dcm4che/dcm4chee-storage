@@ -154,7 +154,7 @@ public class FilesystemGroup implements Serializable {
     }
 
     public Filesystem getFilesystem(String filesystemID) {
-        return filesystems.get(filesystemID);
+        return filesystemID == null ? null : filesystems.get(filesystemID);
     }
 
 }
